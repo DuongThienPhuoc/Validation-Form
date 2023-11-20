@@ -2,9 +2,10 @@ package com.example.jweb_m_l101.dao;
 
 import com.example.jweb_m_l101.entity.User;
 import jakarta.persistence.*;
-import org.hibernate.Transaction;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDAOJPAImpl implements UserDAO {
     private final EntityManagerFactory entityManagerFactory;
@@ -18,8 +19,8 @@ public class UserDAOJPAImpl implements UserDAO {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             TypedQuery<User> query = entityManager.createQuery("from User ", User.class);
-            return query.getResultList();
-        }finally {
+            return Objects.requireNonNullElse(query.getResultList(),Collections.emptyList());
+        } finally {
             entityManager.close();
         }
     }
